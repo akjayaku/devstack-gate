@@ -77,8 +77,9 @@ PROJECTS="openstack/glance $PROJECTS"
 PROJECTS="openstack/heat $PROJECTS"
 PROJECTS="openstack/heat-cfntools $PROJECTS"
 PROJECTS="openstack/heat-templates $PROJECTS"
-if [[ "$DEVSTACK_GATE_HORIZON" -eq "1" || "$DEVSTACK_PROJECT_FROM_GIT" = "manila-ui" ]] ; then
+if [[ "$DEVSTACK_GATE_HORIZON" -eq "1" || "$DEVSTACK_PROJECT_FROM_GIT" = "django_openstack_auth" || "$DEVSTACK_PROJECT_FROM_GIT" = "manila-ui" ]] ; then
     PROJECTS="openstack/horizon $PROJECTS"
+    PROJECTS="openstack/django_openstack_auth $PROJECTS"
     PROJECTS="openstack/manila-ui $PROJECTS"
 fi
 PROJECTS="openstack/keystone $PROJECTS"
@@ -105,6 +106,7 @@ PROJECTS="openstack/keystonemiddleware $PROJECTS"
 PROJECTS="openstack/manila $PROJECTS"
 PROJECTS="openstack/zaqar $PROJECTS"
 PROJECTS="openstack/neutron-fwaas $PROJECTS"
+PROJECTS="openstack/neutron-lbaas $PROJECTS"
 PROJECTS="openstack/octavia $PROJECTS"
 PROJECTS="openstack/neutron-vpnaas $PROJECTS"
 PROJECTS="openstack/os-apply-config $PROJECTS"
@@ -329,9 +331,6 @@ if [[ -n "$DEVSTACK_GATE_GRENADE" ]]; then
                 export GRENADE_NEW_BRANCH="stable/victoria"
             elif [[ "$GRENADE_BASE_BRANCH" == "stable/victoria" ]]; then
                 export GRENADE_OLD_BRANCH="stable/victoria"
-                export GRENADE_NEW_BRANCH="stable/wallaby"
-            elif [[ "$GRENADE_BASE_BRANCH" == "stable/wallaby" ]]; then
-                export GRENADE_OLD_BRANCH="stable/wallaby"
                 export GRENADE_NEW_BRANCH="$GIT_BRANCH"
             fi
             ;;
@@ -372,11 +371,8 @@ if [[ -n "$DEVSTACK_GATE_GRENADE" ]]; then
             elif [[ "$GRENADE_BASE_BRANCH" == "stable/victoria" ]]; then
                 export GRENADE_OLD_BRANCH="stable/ussuri"
                 export GRENADE_NEW_BRANCH="stable/victoria"
-            elif [[ "$GRENADE_BASE_BRANCH" == "stable/wallaby" ]]; then
-                export GRENADE_OLD_BRANCH="stable/victoria"
-                export GRENADE_NEW_BRANCH="stable/wallaby"
             else # master
-                export GRENADE_OLD_BRANCH="stable/wallaby"
+                export GRENADE_OLD_BRANCH="stable/victoria"
                 export GRENADE_NEW_BRANCH="$GIT_BRANCH"
             fi
             ;;
@@ -627,6 +623,11 @@ rc=0
 echo "... this takes a few seconds (logs at logs/devstack-gate-setup-host.txt.gz)"
 $ANSIBLE_PLAYBOOK -f 5 -i "$WORKSPACE/inventory" "$WORKSPACE/devstack-gate/playbooks/setup_host.yaml" \
     &> "$WORKSPACE/logs/devstack-gate-setup-host.txt" || rc=$?
+echo "devstack gate setup host output..."
+cat $WORKSPACE/logs/devstack-gate-setup-host.txt
+cat $WORKSPACE/devstack-gate/playbooks/setup_host.yaml
+cat $WORKSPACE/inventory
+
 if [[ $rc -ne 0 ]]; then
     exit_handler $rc;
 fi
