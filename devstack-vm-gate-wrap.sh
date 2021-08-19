@@ -691,7 +691,7 @@ fi executable=/bin/bash"
 
 echo "Debugs... removing all pip packages befoire start devstack gate..."
 
-sudo $PIP freeze | xargs $PIP uninstall -y
+sudo $PIP freeze | grep -Ev 'ansible|setup|virtualenv'  | xargs $PIP uninstall -y
 # The DEVSTACK_GATE_SETTINGS variable may contain a path to a script that
 # should be sourced after the environment has been set up.  This is useful for
 # allowing projects to provide a script in their repo that sets some custom
