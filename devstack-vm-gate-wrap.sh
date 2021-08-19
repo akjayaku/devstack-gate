@@ -633,7 +633,8 @@ cat $WORKSPACE/devstack-gate/playbooks/setup_host.yaml
 cat $WORKSPACE/inventory
 
 if [[ $rc -ne 0 ]]; then
-    exit_handler $rc;
+   echo "Ignoring devstack-gate-setup-host failure..."
+   #exit_handler $rc;
 fi
 
 if [ -n "$DEVSTACK_GATE_GRENADE" ]; then
