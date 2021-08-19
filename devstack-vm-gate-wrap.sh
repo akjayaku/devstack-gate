@@ -516,14 +516,18 @@ fi
 # TODO(gmann): virtualenv 20.0.1 is broken, one known issue:
 # https://github.com/pypa/virtualenv/issues/1551
 # Once virtualenv is fixed we can use the latest one.
-sudo -H $PIP install "virtualenv<20.0.0"
+#sudo -H $PIP install "virtualenv<20.0.0"
+sudo -H pip3 install "virtualenv"
 virtualenv -p python${PYTHON_VER} /tmp/ansible
 
 # Explicitly install pbr first as this will use pip rathat than
 # easy_install. Hope is this is generally more reliable.
 /tmp/ansible/bin/pip install pbr
-/tmp/ansible/bin/pip install ansible==$ANSIBLE_VERSION \
+#/tmp/ansible/bin/pip install ansible==$ANSIBLE_VERSION \
+#                devstack-tools==$DSTOOLS_VERSION 'ara<1.0.0' 'cmd2<0.9.0'
+/tmp/ansible/bin/pip install ansible \
                 devstack-tools==$DSTOOLS_VERSION 'ara<1.0.0' 'cmd2<0.9.0'
+
 export ANSIBLE=/tmp/ansible/bin/ansible
 export ANSIBLE_PLAYBOOK=/tmp/ansible/bin/ansible-playbook
 export ANSIBLE_CONFIG="$WORKSPACE/ansible.cfg"
@@ -623,7 +627,7 @@ rc=0
 echo "... this takes a few seconds (logs at logs/devstack-gate-setup-host.txt.gz)"
 $ANSIBLE_PLAYBOOK -f 5 -i "$WORKSPACE/inventory" "$WORKSPACE/devstack-gate/playbooks/setup_host.yaml" \
     &> "$WORKSPACE/logs/devstack-gate-setup-host.txt" || rc=$?
-echo "devstack gate setup host output..."
+echo "Debugs... devstack gate setup host output..."
 cat $WORKSPACE/logs/devstack-gate-setup-host.txt
 cat $WORKSPACE/devstack-gate/playbooks/setup_host.yaml
 cat $WORKSPACE/inventory
