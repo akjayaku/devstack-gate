@@ -635,6 +635,7 @@ cat $WORKSPACE/inventory
 if [[ $rc -ne 0 ]]; then
    echo "Ignoring devstack-gate-setup-host failure..."
    #exit_handler $rc;
+   rc=0
 fi
 
 if [ -n "$DEVSTACK_GATE_GRENADE" ]; then
@@ -673,7 +674,10 @@ else
         echo "WARNING: setup workspace took > 10 minutes, this is a very slow node."
     fi
     if [[ $rc -ne 0 ]]; then
-        exit_handler $rc;
+        #exit_handler $rc;
+	echo "Debugs...."
+	cat $WORKSPACE/logs/devstack-gate-setup-workspace-new.txt
+	rc=0
     fi
 fi
 
