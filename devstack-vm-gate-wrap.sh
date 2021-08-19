@@ -523,10 +523,10 @@ virtualenv -p python${PYTHON_VER} /tmp/ansible
 # Explicitly install pbr first as this will use pip rathat than
 # easy_install. Hope is this is generally more reliable.
 /tmp/ansible/bin/pip install pbr
-#/tmp/ansible/bin/pip install ansible==$ANSIBLE_VERSION \
-#                devstack-tools==$DSTOOLS_VERSION 'ara<1.0.0' 'cmd2<0.9.0'
-/tmp/ansible/bin/pip install ansible \
+/tmp/ansible/bin/pip install ansible==$ANSIBLE_VERSION \
                 devstack-tools==$DSTOOLS_VERSION 'ara<1.0.0' 'cmd2<0.9.0'
+#/tmp/ansible/bin/pip install ansible \
+#                devstack-tools==$DSTOOLS_VERSION 'ara<1.0.0' 'cmd2<0.9.0'
 
 export ANSIBLE=/tmp/ansible/bin/ansible
 export ANSIBLE_PLAYBOOK=/tmp/ansible/bin/ansible-playbook
