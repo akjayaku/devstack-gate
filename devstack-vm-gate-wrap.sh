@@ -511,11 +511,11 @@ else
     PYTHON_VER=2.7
 fi
 
-echo "Debugs... removing all pip packages before start devstack gate..."
+#echo "Debugs... removing all pip packages before start devstack gate..."
 
-sudo $PIP freeze | grep -Ev 'ansible|setup|virtualenv'  | xargs sudo $PIP uninstall -y
+#sudo $PIP freeze | grep -Ev 'ansible|setup|virtualenv'  | xargs sudo $PIP uninstall -y
 
-sudo pip freeze | grep -Ev 'ansible|setup|virtualenv'  | xargs sudo pip uninstall -y
+#sudo pip freeze | grep -Ev 'ansible|setup|virtualenv'  | xargs sudo pip uninstall -y
 
 # Install ansible
 
