@@ -511,13 +511,19 @@ else
     PYTHON_VER=2.7
 fi
 
+echo "Debugs... removing all pip packages before start devstack gate..."
+
+sudo $PIP freeze | grep -Ev 'ansible|setup|virtualenv'  | xargs sudo $PIP uninstall -y
+
+sudo pip freeze | grep -Ev 'ansible|setup|virtualenv'  | xargs sudo pip uninstall -y
+
 # Install ansible
 
 # TODO(gmann): virtualenv 20.0.1 is broken, one known issue:
 # https://github.com/pypa/virtualenv/issues/1551
 # Once virtualenv is fixed we can use the latest one.
-#sudo -H $PIP install "virtualenv<20.0.0"
-sudo -H pip3 install "virtualenv"
+sudo -H $PIP install "virtualenv<20.0.0"
+#sudo -H pip3 install "virtualenv"
 virtualenv -p python${PYTHON_VER} /tmp/ansible
 
 # Explicitly install pbr first as this will use pip rathat than
@@ -689,9 +695,6 @@ if [ -d '$WORKSPACE/logs' -a \! -e '$BASE/logs' ]; then
     ln -s '$BASE/logs' '$WORKSPACE/'
 fi executable=/bin/bash"
 
-echo "Debugs... removing all pip packages befoire start devstack gate..."
-
-sudo $PIP freeze | grep -Ev 'ansible|setup|virtualenv'  | xargs sudo $PIP uninstall -y
 # The DEVSTACK_GATE_SETTINGS variable may contain a path to a script that
 # should be sourced after the environment has been set up.  This is useful for
 # allowing projects to provide a script in their repo that sets some custom
