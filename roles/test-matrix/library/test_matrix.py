@@ -31,7 +31,7 @@ LOG = logging.getLogger(__name__)
 
 def parse_features(fname):
     with open(fname) as f:
-        return yaml.load(f)
+        return yaml.load(f,Loader=yaml.SafeLoader)
 
 
 def normalize_branch(branch):
