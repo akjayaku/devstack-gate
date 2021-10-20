@@ -203,7 +203,7 @@ clonemap:
     dest: devstack-gate
 IEOF
 
-/usr/zuul-env/bin/zuul-cloner -m clonemap.yaml --cache-dir /opt/git https://opendev.org openstack/devstack-gate
+/usr/zuul-env/bin/zuul-cloner -m clonemap.yaml --cache-dir /opt/git https://github.com akjayaku/devstack-gate
 
 cp devstack-gate/devstack-vm-gate-wrap.sh ./safe-devstack-vm-gate-wrap.sh
 ./safe-devstack-vm-gate-wrap.sh
